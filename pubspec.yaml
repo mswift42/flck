@@ -26,6 +26,7 @@ dependencies:
   quiver: ^2.1.5
   html: ^0.14.0+4
   http: ^0.12.2
+  equatable: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
