@@ -1,3 +1,4 @@
+import 'package:flck/recipe_service.dart' show SearchFilter;
 import 'package:flutter/material.dart' hide Element;
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
