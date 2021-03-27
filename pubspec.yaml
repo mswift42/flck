@@ -23,9 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  quiver: ^2.1.5
-  html: ^0.14.0+4
-  http: ^0.12.2
+  quiver: ^3.0.0
+  html: ^0.15.0
+  http: ^0.13.1
   equatable: ^2.0.0
 
 
@@ -40,7 +40,7 @@ dev_dependencies:
     sdk: flutter
   flutter_driver:
     sdk: flutter
-  test: any
+  test: ^1.16.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
