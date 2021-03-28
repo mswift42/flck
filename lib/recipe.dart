@@ -6,11 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:quiver/core.dart' show hash2;
 
 class Recipe {
-  String title;
-  String url;
-  String thumbnail;
-  String difficulty;
-  String preptime;
+  String? title;
+  String? url;
+  String? thumbnail;
+  String? difficulty;
+  String? preptime;
 
   Recipe(this.title, this.url, this.thumbnail, this.difficulty, this.preptime);
 
@@ -27,13 +27,13 @@ class Recipe {
 
 @immutable
 class RecipeDetail {
-  final String title;
-  final String rating;
-  final String difficulty;
-  final String cookingtime;
-  final String thumbnail;
-  final List<RecipeIngredient> ingredients;
-  final String method;
+  final String? title;
+  final String? rating;
+  final String? difficulty;
+  final String? cookingtime;
+  final String? thumbnail;
+  final List<RecipeIngredient>? ingredients;
+  final String? method;
 
   RecipeDetail(
       {this.title,
@@ -74,7 +74,7 @@ class RecipeDetail {
       'difficulty': difficulty,
       'cookingtime': cookingtime,
       'thumbnail': thumbnail,
-      'ingredients': ingredients.map((i) => i.toJson()).toList(),
+      'ingredients': ingredients!.map((i) => i.toJson()).toList(),
       'method': method,
     };
   }
@@ -88,8 +88,8 @@ class RecipeDetail {
 }
 
 class RecipeIngredient {
-  String amount;
-  String ingredient;
+  String? amount;
+  String? ingredient;
 
   RecipeIngredient(this.amount, this.ingredient);
 
@@ -171,17 +171,17 @@ class CKDocSelection extends DocSelection {
   CKDocSelection(this.cknode) : super(cknode);
 
   String title() {
-    return cknode.querySelector(".ds-heading-link").text;
+    return cknode.querySelector(".ds-heading-link")!.text;
   }
 
-  String url() {
-    var url = cknode.querySelector(".rsel-item > a");
+  String? url() {
+    var url = cknode.querySelector(".rsel-item > a")!;
     return url.attributes["href"];
   }
 
   String thumbnail() {
     var thumbs =
-        cknode.querySelector(".ds-mb-left > amp-img").attributes["srcset"];
+        cknode.querySelector(".ds-mb-left > amp-img")!.attributes["srcset"]!;
     var img = thumbs.split('\n')[2].trim().replaceFirst(' 3x', '');
     if (img.startsWith('//img')) {
       return 'https:$img';
@@ -191,14 +191,14 @@ class CKDocSelection extends DocSelection {
 
   String difficulty() {
     return cknode
-        .querySelector(".recipe-difficulty")
+        .querySelector(".recipe-difficulty")!
         .text
         .split('\n')[1]
         .trim();
   }
 
   String preptime() {
-    return cknode.querySelector(".recipe-preptime").text.split('\n')[1].trim();
+    return cknode.querySelector(".recipe-preptime")!.text.split('\n')[1].trim();
   }
 }
 
@@ -208,24 +208,24 @@ class BGFSelection extends DocSelection {
   BGFSelection(this.bgfnode) : super(bgfnode);
 
   String title() {
-    return bgfnode.querySelector('.teaser-item__title').text.trim();
+    return bgfnode.querySelector('.teaser-item__title')!.text.trim();
   }
 
   String url() {
-    return 'https://www.bbcgoodfood.com${bgfnode.querySelector('.teaser-item__image > a').attributes["href"]}';
+    return 'https://www.bbcgoodfood.com${bgfnode.querySelector('.teaser-item__image > a')!.attributes["href"]}';
   }
 
   String thumbnail() {
     return 'https:' +
         bgfnode
-            .querySelector('.teaser-item__image > a > img')
-            .attributes["src"];
+            .querySelector('.teaser-item__image > a > img')!
+            .attributes["src"]!;
   }
 
   String preptime() {
     return bgfnode
         .querySelector(
-            'li.teaser-item__info-item.teaser-item__info-item--total-time')
+            'li.teaser-item__info-item.teaser-item__info-item--total-time')!
         .text
         .trim();
   }
@@ -233,7 +233,7 @@ class BGFSelection extends DocSelection {
   String difficulty() {
     return bgfnode
         .querySelector(
-            'li.teaser-item__info-item.teaser-item__info-item--skill-level')
+            'li.teaser-item__info-item.teaser-item__info-item--skill-level')!
         .text
         .trim();
   }
@@ -250,16 +250,16 @@ class RecipeDetailDocument {
   RecipeDetailDocument(this.doc);
 
   String title() {
-    return doc.querySelector('h1').text.trim();
+    return doc.querySelector('h1')!.text.trim();
   }
 
-  String rating() {
-    return doc.querySelector('.ds-rating-avg>span>strong')?.text?.trim() ?? "";
+  String? rating() {
+    return doc.querySelector('.ds-rating-avg>span>strong')?.text.trim() ?? "";
   }
 
   String difficulty() {
     return doc
-        .querySelector('.recipe-difficulty')
+        .querySelector('.recipe-difficulty')!
         .text
         .replaceAll('\n', '')
         .replaceAll('', '')
@@ -267,33 +267,33 @@ class RecipeDetailDocument {
   }
 
   String cookingtime() {
-    var ct = doc.querySelector('.recipe-preptime').text;
+    var ct = doc.querySelector('.recipe-preptime')!.text;
     var split = ct.split('\n');
     return split[1].trim();
   }
 
   String thumbnail() {
     var thumbs = doc
-        .querySelector('.bi-recipe-slider-open > amp-img')
-        .attributes['srcset'];
+        .querySelector('.bi-recipe-slider-open > amp-img')!
+        .attributes['srcset']!;
     var img = thumbs.split('\n')[2].trim().replaceFirst(' 600w', '');
     return img;
   }
 
   String method() {
-    return doc.querySelector('.rds-recipe-meta+.ds-box').text.trimLeft();
+    return doc.querySelector('.rds-recipe-meta+.ds-box')!.text.trimLeft();
   }
 
   List<RecipeIngredient> ingredients() {
     List<RecipeIngredient> ingredients = [];
     var ingtable = doc.querySelectorAll('.ingredients>tbody>tr');
     ingtable.forEach((i) {
-      var amount = i.querySelector('.td-left').text.trim();
+      var amount = i.querySelector('.td-left')!.text.trim();
       var amsplit = amount.split(' ');
       if (amsplit.length > 2) {
         amount = amsplit.first + ' ' + amsplit.last;
       }
-      var ing = i.querySelector('.td-right').text.trim();
+      var ing = i.querySelector('.td-right')!.text.trim();
       ingredients.add(RecipeIngredient(amount, ing));
     });
     return ingredients;
@@ -313,20 +313,20 @@ class BGFRecipeDetailDocument extends RecipeDetailDocument {
 
   @override
   String title() {
-    return doc.querySelector('.recipe-header__title').text;
+    return doc.querySelector('.recipe-header__title')!.text;
   }
 
   @override
-  String rating() {
+  String? rating() {
     return doc
-        .querySelector('meta[itemprop="ratingValue"]')
+        .querySelector('meta[itemprop="ratingValue"]')!
         .attributes["content"];
   }
 
   @override
   String difficulty() {
     return doc
-        .querySelector('.recipe-details__item--skill-level > span')
+        .querySelector('.recipe-details__item--skill-level > span')!
         .text
         .trim();
   }
@@ -334,7 +334,7 @@ class BGFRecipeDetailDocument extends RecipeDetailDocument {
   @override
   String cookingtime() {
     return doc
-        .querySelector('.recipe-details__cooking-time-cook')
+        .querySelector('.recipe-details__cooking-time-cook')!
         .text
         .substring(7)
         .trim();
@@ -343,18 +343,18 @@ class BGFRecipeDetailDocument extends RecipeDetailDocument {
   @override
   String thumbnail() {
     return 'https:' +
-        doc.querySelector('.img-container > img').attributes['src'];
+        doc.querySelector('.img-container > img')!.attributes['src']!;
   }
 
   List<String> methodlist() {
-    var ol = doc.querySelector('.method__list');
+    var ol = doc.querySelector('.method__list')!;
     return ol.children.map((i) => i.text).toList();
   }
 
   List<String> ingredientList() {
     return doc
         .querySelectorAll('.ingredients-list__item')
-        .map((i) => i.attributes["content"].trim())
+        .map((i) => i.attributes["content"]!.trim())
         .toList();
   }
 }
