@@ -175,30 +175,30 @@ class CKDocSelection extends DocSelection {
   }
 
   String? url() {
-    var url = cknode.querySelector(".rsel-item > a")?;
+    var url = cknode.querySelector(".rsel-item > a");
     return url?.attributes["href"];
   }
 
-  String thumbnail() {
+  String? thumbnail() {
     var thumbs =
-        cknode.querySelector(".ds-mb-left > amp-img")!.attributes["srcset"]!;
-    var img = thumbs.split('\n')[2].trim().replaceFirst(' 3x', '');
-    if (img.startsWith('//img')) {
+        cknode.querySelector(".ds-mb-left > amp-img")?.attributes["srcset"];
+    var img = thumbs?.split('\n')[2].trim().replaceFirst(' 3x', '');
+    if (img!.startsWith('//img')) {
       return 'https:$img';
     }
     return img;
   }
 
-  String difficulty() {
+  String? difficulty() {
     return cknode
-        .querySelector(".recipe-difficulty")!
-        .text
+        .querySelector(".recipe-difficulty")
+        ?.text
         .split('\n')[1]
         .trim();
   }
 
-  String preptime() {
-    return cknode.querySelector(".recipe-preptime")!.text.split('\n')[1].trim();
+  String? preptime() {
+    return cknode.querySelector(".recipe-preptime")?.text.split('\n')[1].trim();
   }
 }
 
@@ -207,34 +207,31 @@ class BGFSelection extends DocSelection {
 
   BGFSelection(this.bgfnode) : super(bgfnode);
 
-  String title() {
-    return bgfnode.querySelector('.teaser-item__title')!.text.trim();
+  String? title() {
+    return bgfnode.querySelector('.teaser-item__title')?.text.trim();
   }
 
-  String url() {
-    return 'https://www.bbcgoodfood.com${bgfnode.querySelector('.teaser-item__image > a')!.attributes["href"]}';
+  String? url() {
+    return 'https://www.bbcgoodfood.com${bgfnode.querySelector('.teaser-item__image > a')?.attributes["href"]}';
   }
 
-  String thumbnail() {
-    return 'https:' +
-        bgfnode
-            .querySelector('.teaser-item__image > a > img')!
-            .attributes["src"]!;
+  String? thumbnail() {
+    return 'https:${bgfnode.querySelector('.teaser-item__image > a > img')?.attributes["src"]}';
   }
 
-  String preptime() {
+  String? preptime() {
     return bgfnode
         .querySelector(
-            'li.teaser-item__info-item.teaser-item__info-item--total-time')!
-        .text
+            'li.teaser-item__info-item.teaser-item__info-item--total-time')
+        ?.text
         .trim();
   }
 
-  String difficulty() {
+  String? difficulty() {
     return bgfnode
         .querySelector(
-            'li.teaser-item__info-item.teaser-item__info-item--skill-level')!
-        .text
+            'li.teaser-item__info-item.teaser-item__info-item--skill-level')
+        ?.text
         .trim();
   }
 }
