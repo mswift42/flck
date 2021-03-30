@@ -170,13 +170,13 @@ class CKDocSelection extends DocSelection {
 
   CKDocSelection(this.cknode) : super(cknode);
 
-  String title() {
-    return cknode.querySelector(".ds-heading-link")!.text;
+  String? title() {
+    return cknode.querySelector(".ds-heading-link")?.text;
   }
 
   String? url() {
-    var url = cknode.querySelector(".rsel-item > a")!;
-    return url.attributes["href"];
+    var url = cknode.querySelector(".rsel-item > a")?;
+    return url?.attributes["href"];
   }
 
   String thumbnail() {
@@ -257,31 +257,31 @@ class RecipeDetailDocument {
     return doc.querySelector('.ds-rating-avg>span>strong')?.text.trim() ?? "";
   }
 
-  String difficulty() {
+  String? difficulty() {
     return doc
-        .querySelector('.recipe-difficulty')!
-        .text
+        .querySelector('.recipe-difficulty')
+        ?.text
         .replaceAll('\n', '')
         .replaceAll('', '')
         .trim();
   }
 
-  String cookingtime() {
-    var ct = doc.querySelector('.recipe-preptime')!.text;
-    var split = ct.split('\n');
-    return split[1].trim();
+  String? cookingtime() {
+    var ct = doc.querySelector('.recipe-preptime')?.text;
+    var split = ct?.split('\n');
+    return split?[1].trim();
   }
 
-  String thumbnail() {
+  String? thumbnail() {
     var thumbs = doc
-        .querySelector('.bi-recipe-slider-open > amp-img')!
-        .attributes['srcset']!;
-    var img = thumbs.split('\n')[2].trim().replaceFirst(' 600w', '');
+        .querySelector('.bi-recipe-slider-open > amp-img')
+        ?.attributes['srcset']!;
+    var img = thumbs?.split('\n')[2].trim().replaceFirst(' 600w', '');
     return img;
   }
 
-  String method() {
-    return doc.querySelector('.rds-recipe-meta+.ds-box')!.text.trimLeft();
+  String? method() {
+    return doc.querySelector('.rds-recipe-meta+.ds-box')?.text.trimLeft();
   }
 
   List<RecipeIngredient> ingredients() {
