@@ -32,7 +32,7 @@ class RecipeDetail {
   final String? difficulty;
   final String? cookingtime;
   final String? thumbnail;
-  final List<RecipeIngredient>? ingredients;
+  final List<RecipeIngredient> ingredients;
   final String? method;
 
   RecipeDetail(
@@ -41,7 +41,7 @@ class RecipeDetail {
       this.difficulty,
       this.cookingtime,
       this.thumbnail,
-      this.ingredients,
+      required this.ingredients,
       this.method});
 
   factory RecipeDetail.fromJson(Map<String, dynamic> json) {
@@ -51,7 +51,7 @@ class RecipeDetail {
         difficulty: json['difficulty'],
         cookingtime: json['cookingtime'],
         thumbnail: json['thumbnail'],
-        ingredients: json['ingredients'],
+        ingredients: json['ingredients'] ?? [],
         method: json['method']);
   }
 
@@ -74,7 +74,7 @@ class RecipeDetail {
       'difficulty': difficulty,
       'cookingtime': cookingtime,
       'thumbnail': thumbnail,
-      'ingredients': ingredients!.map((i) => i.toJson()).toList(),
+      'ingredients': ingredients.map((i) => i.toJson()).toList(),
       'method': method,
     };
   }
