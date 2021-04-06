@@ -338,14 +338,13 @@ class BGFRecipeDetailDocument extends RecipeDetailDocument {
   }
 
   @override
-  String thumbnail() {
-    return 'https:' +
-        doc.querySelector('.img-container > img')!.attributes['src']!;
+  String? thumbnail() {
+    return 'https:${doc.querySelector('.img-container > img')?.attributes['src']}';
   }
 
-  List<String> methodlist() {
-    var ol = doc.querySelector('.method__list')!;
-    return ol.children.map((i) => i.text).toList();
+  List<String?> methodlist() {
+    var ol = doc.querySelector('.method__list');
+    return ol!.children.map((i) => i.text).toList();
   }
 
   List<String> ingredientList() {
