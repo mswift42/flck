@@ -246,8 +246,8 @@ class RecipeDetailDocument {
 
   RecipeDetailDocument(this.doc);
 
-  String title() {
-    return doc.querySelector('h1')!.text.trim();
+  String? title() {
+    return doc.querySelector('h1')?.text.trim();
   }
 
   String? rating() {
@@ -309,30 +309,30 @@ class BGFRecipeDetailDocument extends RecipeDetailDocument {
   BGFRecipeDetailDocument(this.doc) : super(doc);
 
   @override
-  String title() {
-    return doc.querySelector('.recipe-header__title')!.text;
+  String? title() {
+    return doc.querySelector('.recipe-header__title')?.text;
   }
 
   @override
   String? rating() {
     return doc
-        .querySelector('meta[itemprop="ratingValue"]')!
-        .attributes["content"];
+        .querySelector('meta[itemprop="ratingValue"]')
+        ?.attributes["content"];
   }
 
   @override
-  String difficulty() {
+  String? difficulty() {
     return doc
-        .querySelector('.recipe-details__item--skill-level > span')!
-        .text
+        .querySelector('.recipe-details__item--skill-level > span')
+        ?.text
         .trim();
   }
 
   @override
-  String cookingtime() {
+  String? cookingtime() {
     return doc
-        .querySelector('.recipe-details__cooking-time-cook')!
-        .text
+        .querySelector('.recipe-details__cooking-time-cook')
+        ?.text
         .substring(7)
         .trim();
   }
@@ -344,7 +344,10 @@ class BGFRecipeDetailDocument extends RecipeDetailDocument {
 
   List<String?> methodlist() {
     var ol = doc.querySelector('.method__list');
-    return ol!.children.map((i) => i.text).toList();
+    if (ol != null) {
+      return ol.children.map((i) => i.text).toList();
+    }
+    return [];
   }
 
   List<String> ingredientList() {
