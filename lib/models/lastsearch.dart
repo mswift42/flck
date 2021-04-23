@@ -56,7 +56,6 @@ class LastSearchModel with ChangeNotifier {
       case 'Chefkoch':
         final file = await _localFileBBCGF;
         return file.writeAsString(searches.join(','));
-        break;
       default:
         final file = await _localFileCK;
         return file.writeAsString(searches.join(','));
@@ -69,16 +68,15 @@ class LastSearchModel with ChangeNotifier {
         case 'Chefkoch':
           final file = await _localFileBBCGF;
           String contents = await file.readAsString();
-          return contents?.split(',') ?? [];
-          break;
+          return contents.split(',');
         default:
           final file = await _localFileCK;
           String contents = await file.readAsString();
-          return contents?.split(',') ?? [];
+          return contents.split(',');
       }
     } catch (e) {
       print(e);
     }
-    return null;
+    return [];
   }
 }
