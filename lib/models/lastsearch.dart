@@ -14,10 +14,6 @@ class LastSearchModel with ChangeNotifier {
   final String lastSearchesFileBBCGF = 'lastSearchesbbcgf.txt';
   Set<String> _savedSearches = {};
 
-  LastSearchModel() {
-    lastSearches(activeSoruce);
-  }
-
   Future<void> lastSearches(RecipeSource source) async {
     readSearches(source).then((value) => _savedSearches = value.toSet());
   }
