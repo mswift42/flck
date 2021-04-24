@@ -1,4 +1,8 @@
+import 'package:flck/models/lastsearch.dart';
+import 'package:flck/models/searchfilter.dart';
+import 'package:flck/models/source.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -108,6 +112,56 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class FlckApp extends StatelessWidget {
+  final Color primarySwatchCK = Colors.lightGreen;
+  final Color primarySwatchBBCGF = Colors.teal;
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SourceModel()),
+        ChangeNotifierProvider(create: (context) => LastSearchModel()),
+        ChangeNotifierProvider(create: (context) => SearchFilterModel()),
+        // TODO Add SearchFilter model.
+      ],
+      child: Homescreen(
+          primarySwatchCK: primarySwatchCK,
+          primarySwatchBBCGF: primarySwatchBBCGF),
+    );
+  }
+}
+
+class Homescreen extends StatelessWidget {
+  const Homescreen({
+    required this.primarySwatchCK,
+    required this.primarySwatchBBCGF,
+  });
+
+  final Color primarySwatchCK;
+  final Color primarySwatchBBCGF;
+
+  @override
+  Widget build(BuildContext context) {
+    var activeSource = Provider.of<SourceModel>(context);
+    var sf = Provider.of<SearchFilterModel>(context);
+    return MaterialApp(
+      title: 'CK',
+      theme: ThemeData(
+        primaryColor: Colors.blueGrey[400],
+        accentColor: Colors.blueGrey[500],
+        primarySwatch: (activeSource.active == sources[0])
+            ? primarySwatchCK
+            : primarySwatchBBCGF,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => RecipeSearch(),
+      },
     );
   }
 }
